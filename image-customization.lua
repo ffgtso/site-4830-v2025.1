@@ -4,7 +4,6 @@ features {
     'ebtables-filter-ra-dhcp',
     'ebtables-limit-arp',
     'mesh-batman-adv-15',
-    'mesh-vpn-wireguard',
     'respondd',
     'status-page',
     'web-advanced',
@@ -16,6 +15,7 @@ features {
 }
 
 packages {
+	'ff-mesh-vpn-tunneldigger',
     'iwinfo',
     'ffac-wg-registration',
     'respondd-module-airtime',

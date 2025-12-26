@@ -75,7 +75,7 @@ endif
 define INFO :=
 
 #########################
-# FFAC Firmware build
+# 4830.org Firmware build
 # building release '$(GLUON_RELEASE)'$(TARGETS_INFO)$(DEVICE_INFO)
 #########################
 # MAKEFLAGS:

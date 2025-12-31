@@ -1,8 +1,8 @@
 GLUON_SITE_FEEDS="community ffac"
 
 PACKAGES_COMMUNITY_REPO=https://github.com/freifunk-gluon/community-packages
-PACKAGES_COMMUNITY_COMMIT=8b414afba0f57128ac932aee192f2fda9abe7379
-PACKAGES_COMMUNITY_BRANCH=ffac-private-wan-dhcp
+PACKAGES_COMMUNITY_COMMIT=1dcca7bb8ed94b09c62781f16690a2119dbfc392
+PACKAGES_COMMUNITY_BRANCH=main
 
 PACKAGES_FFAC_REPO=https://github.com/ffac/gluon-packages.git
 PACKAGES_FFAC_COMMIT=0ff95afb3fbb60e8cd779fd73c054571775c3d40

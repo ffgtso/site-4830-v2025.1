@@ -27,7 +27,6 @@ packages {
 	'ffgt-config-mode-wizard',
 	'ffgt-preserve-mods',
 	'ffgt-speedtest',
-	'ff-ap-timer',
 	'ffgt-nachtruhe',
 	'gluon-radv-filterd',
 	'gluon-web-logging',

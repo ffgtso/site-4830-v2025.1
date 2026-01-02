@@ -149,7 +149,12 @@ build: gluon-prepare output-clean
 	+@for target in $(GLUON_TARGETS); do \
 		echo ''; \
 		echo ''Building target $$target''; \
-		$(GLUON_MAKE) download all GLUON_TARGET=$$target CONFIG_JSON_ADD_IMAGE_INFO=1; \
+		date +%s >lastbuildstart; \
+		$(GLUON_MAKE) download all GLUON_TARGET=$$target CONFIG_JSON_ADD_IMAGE_INFO=1; 2>&1 > build_$${target}.log \
+		makeRC=$$? ;\
+		./log_status.sh "$$target" $$makeRC ; \
+		echo "Done building target $$target with RC $$makeRC" ; \
+		if [ $$makeRC -ne 0 ]; then echo "*** Bailing out." ; break; fi; \
 	done
 	@if [ ! -f "$(OPKG_KEY_FOLDER)/key-build" ] && [ -f "$(GLUON_BUILD_DIR)/openwrt/key-build" ]; then \
 		echo 'Copying new opkg keys to $(OPKG_KEY_FOLDER)'; \

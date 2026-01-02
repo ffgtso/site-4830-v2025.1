@@ -1,0 +1,57 @@
+From a81627af6068cc57ccd6103b3a77cab5e040cc4d Mon Sep 17 00:00:00 2001
+From: FFGT Admins <info@4830.org>
+Date: Tue, 16 Dec 2025 23:59:58 +0000
+Subject: [PATCH] Add community name to info page
+
+---
+ package/gluon-core/luasrc/usr/lib/lua/gluon/info.lua | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/package/gluon-core/luasrc/usr/lib/lua/gluon/info.lua b/package/gluon-core/luasrc/usr/lib/lua/gluon/info.lua
+index c0081dbf..cfb9875f 100644
+--- a/package/gluon-core/luasrc/usr/lib/lua/gluon/info.lua
++++ b/package/gluon-core/luasrc/usr/lib/lua/gluon/info.lua
+@@ -7,6 +7,7 @@ local platform = require 'gluon.platform'
+ local util = require 'gluon.util'
+ local has_vpn, vpn = pcall(require, 'gluon.mesh-vpn')
+ local ethernet = require 'gluon.ethernet'
++local json = require 'jsonc'
+ 
+ local pubkey
+ if has_vpn then
+@@ -17,6 +18,10 @@ local M = {}
+ 
+ function M.get_info()
+ 	local updater_enabled = uci:get_bool('autoupdater', 'settings', 'enabled')
++	local domain_code = uci:get('gluon', 'core', 'domain')
++	local domain = assert(json.load('/lib/gluon/domains/' .. domain_code .. '.json'))
++	local mesh_name = domain.domain_names[domain_code] or 'n/a'
++	local community_name = domain.community_name or mesh_name	
+ 	return {
+ 		hostname = pretty_hostname.get(uci),
+ 		mac_address = sysconfig.primary_mac,
+@@ -25,7 +30,9 @@ function M.get_info()
+ 		site_version = util.trim(util.readfile('/lib/gluon/site-version')),
+ 		firmware_release = util.trim(util.readfile('/lib/gluon/release')),
+ 		site = site.site_name(),
+-		domain = uci:get('gluon', 'core', 'domain'),
++		community = community_name,
++		domain = domain_code,
++		mesh = mesh_name,
+ 		public_vpn_key = pubkey,
+ 		switch_type = ethernet.get_switch_type(),
+ 		updater_branch = updater_enabled and uci:get('autoupdater', 'settings', 'branch'),
+@@ -53,8 +60,10 @@ function M.get_info_pretty(i18n)
+ 		{ _('Hardware model'), data.hardware_model },
+ 		{ _('Gluon version') .. " / " .. _('Site version'), data.gluon_version .. " / " .. data.site_version },
+ 		{ _('Firmware release'), data.firmware_release },
++		{ _('Community'), data.community },
+ 		{ _('Site'), data.site },
+ 		{ _('Domain'), data.domain or 'n/a' },
++		{ _('Mesh'), data.mesh or 'n/a' },
+ 		{ _('Public VPN key'), data.public_vpn_key or _('disabled') },
+ 		{ _('Switch type'), data.switch_type },
+ 		{ _('Autoupdater branch'), data.updater_branch or _('disabled') },
+-- 
+2.30.2
+

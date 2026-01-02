@@ -1,0 +1,43 @@
+From cf0707ab82375cb1b7c666a79c0b1ba1d6ba0be1 Mon Sep 17 00:00:00 2001
+From: wusel <wusel+src@uu.org>
+Date: Fri, 18 Jul 2025 15:53:44 +0200
+Subject: [PATCH] Export community name, mail and web to reboot page
+
+---
+ .../lib/gluon/config-mode/reboot/0900-msg-reboot.lua  | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/package/gluon-config-mode-core/luasrc/lib/gluon/config-mode/reboot/0900-msg-reboot.lua b/package/gluon-config-mode-core/luasrc/lib/gluon/config-mode/reboot/0900-msg-reboot.lua
+index d73a9e0b..83287330 100644
+--- a/package/gluon-config-mode-core/luasrc/lib/gluon/config-mode/reboot/0900-msg-reboot.lua
++++ b/package/gluon-config-mode-core/luasrc/lib/gluon/config-mode/reboot/0900-msg-reboot.lua
+@@ -3,11 +3,17 @@ local site_i18n = i18n 'gluon-site'
+ local site = require 'gluon.site'
+ local sysconfig = require 'gluon.sysconfig'
+ local pretty_hostname = require 'pretty_hostname'
+-
++local json = require 'jsonc'
++local util = require 'gluon.util'
+ local uci = require("simple-uci").cursor()
+ 
+ local hostname = pretty_hostname.get(uci)
+ local contact = uci:get_first('gluon-node-info', 'owner', 'contact')
++local domain_code = uci:get('gluon', 'core', 'domain')
++local domain = assert(json.load('/lib/gluon/domains/' .. domain_code .. '.json'))
++local community_name = domain.domain_names[domain_code] or 'n/a'
++local community_mail = domain.community_contact or 'n/a'
++local community_url = domain.community_website or 'n/a'
+ 
+ local msg = site_i18n._translate('gluon-config-mode:reboot')
+ if not msg then return end
+@@ -17,4 +23,7 @@ renderer.render_string(msg, {
+ 	site = site,
+ 	sysconfig = sysconfig,
+ 	contact = contact,
++	community_name = community_name,
++	community_mail = community_mail,
++	community_url = community_url
+ })
+-- 
+2.30.2
+

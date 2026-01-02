@@ -20,6 +20,8 @@
 # OPKG_KEY_FOLDER - Path to your OpenWrt package signing key
 #########################
 
+GLUON_RELEASE := 2.0.1~$(shell get_build_nr.sh)
+
 
 ## Setup Build environment variables
 include release.mk

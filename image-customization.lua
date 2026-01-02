@@ -21,6 +21,20 @@ packages {
     'respondd-module-airtime',
     'tecff-general-workaround',
     'tecff-broken-wlan-workaround',
+    'ffac-ssid-changer',
+	'ffgt-name-conformizer',
+	'ffgt-banner',
+	'ffgt-config-mode-wizard',
+	'ffgt-preserve-mods',
+	'ffgt-speedtest',
+	'ff-ap-timer',
+	'ffgt-nachtruhe',
+	'gluon-radv-filterd',
+	'gluon-web-logging',
+	'ffac-autoupdater-wifi-fallback',
+	'ffX-migrate-to-4830',
+	'ffgt-eol-device',
+	'ffda-node-whisperer'
 }
 
 include_usb = false
@@ -40,10 +54,6 @@ if not device_class('tiny') and not tiny_like then
     }
     packages {
         'openssh-sftp-server',
-        'ffac-autoupdater-wifi-fallback',
-        'ffmuc-custom-banner',
-        'ffac-ssid-changer',
-        'ff-web-ap-timer',
         'ffda-gluon-usteer',
     }
     -- usb is only default available for non-tiny devices

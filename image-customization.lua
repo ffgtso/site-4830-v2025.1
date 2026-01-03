@@ -17,7 +17,6 @@ features {
 packages {
 	'ff-mesh-vpn-tunneldigger',
     'iwinfo',
-    'ffac-wg-registration',
     'respondd-module-airtime',
     'tecff-general-workaround',
     'tecff-broken-wlan-workaround',
@@ -33,7 +32,6 @@ packages {
 	'ffac-autoupdater-wifi-fallback',
 	'ffX-migrate-to-4830',
 	'ffgt-eol-device',
-	'ffda-node-whisperer'
 }
 
 include_usb = false
@@ -43,6 +41,7 @@ tiny_like = device({
     'tp-link-archer-c60-v1',
     'tp-link-td-w8970',
     'tp-link-td-w8980',
+    'ubiquiti-nanostation-m-xw',
 })
 
 if not device_class('tiny') and not tiny_like then
@@ -54,6 +53,7 @@ if not device_class('tiny') and not tiny_like then
     packages {
         'openssh-sftp-server',
         'ffda-gluon-usteer',
+        'ffda-node-whisperer',
     }
     -- usb is only default available for non-tiny devices
     include_usb = true

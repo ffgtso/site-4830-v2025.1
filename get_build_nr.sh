@@ -6,3 +6,4 @@ else
     echo "0" >build-nr.txt
 fi
 cat build-nr.txt
+echo 1 >lfdtgtnr

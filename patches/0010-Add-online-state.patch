@@ -1,17 +1,17 @@
-From df6ec257913b621ed77d0b081bb43299cf4e2745 Mon Sep 17 00:00:00 2001
+From 8932e28d5769639f533f350a336041352d291f5d Mon Sep 17 00:00:00 2001
 From: wusel <wusel+src@uu.org>
-Date: Mon, 13 Feb 2023 23:48:10 +0100
-Subject: [PATCH] Fix
+Date: Sun, 4 Jan 2026 02:42:31 +0100
+Subject: [PATCH 1/1] Add online state
 
 ---
- .../files/lib/gluon/config-mode/view/theme/layout.html      | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../files/lib/gluon/config-mode/view/theme/layout.html   | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/package/gluon-config-mode-theme/files/lib/gluon/config-mode/view/theme/layout.html b/package/gluon-config-mode-theme/files/lib/gluon/config-mode/view/theme/layout.html
-index 33406cca..7e5111e8 100644
+index 9633531a..50c16617 100644
 --- a/package/gluon-config-mode-theme/files/lib/gluon/config-mode/view/theme/layout.html
 +++ b/package/gluon-config-mode-theme/files/lib/gluon/config-mode/view/theme/layout.html
-@@ -12,14 +12,16 @@ You may obtain a copy of the License at
+@@ -7,10 +7,18 @@ SPDX-FileCopyrightText: 2008-2010 Jo-Philipp Wich <xm@subsignal.org>
  	local pretty_hostname = require "pretty_hostname"
  	local uci  = require("simple-uci").cursor()
  	local util = require "gluon.util"
@@ -20,16 +20,24 @@ index 33406cca..7e5111e8 100644
  	local hostname = pretty_hostname.get(uci)
  	local release = util.readfile("/lib/gluon/release")
  
- 	local onlinestate = "offline"
- 	if unistd.access('/tmp/is_online') then
--		onlinestate=util.readfile("/tmp/is_online"):gsub("\.$","")
--		onlinestate=onlinestate:gsub("ipv". "IPv")
++	local onlinestate = "offline"
++	if unistd.access('/tmp/is_online') then
 +		onlinestate=util.readfile("/tmp/is_online")
 +		onlinestate=onlinestate:gsub('\.\n', '')
 +		onlinestate=onlinestate:gsub("ipv", "IPv")
- 	end
++	end
++
  	local root = node()
  	local rnode = node(unpack(request))
+ 
+@@ -107,6 +115,7 @@ SPDX-FileCopyrightText: 2008-2010 Jo-Philipp Wich <xm@subsignal.org>
+ 				<% if release then %>
+ 				/ <%|release%>
+ 				<% end %>
++				&nbsp;&nbsp;&nbsp; (<%|onlinestate%>)
+ 			</a>
+ 		</div>
+ 
 -- 
 2.30.2
 

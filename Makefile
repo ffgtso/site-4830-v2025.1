@@ -139,7 +139,7 @@ endif
 # This allows communication of MAKEFLAGS like -j to submake.
 # https://stackoverflow.com/a/60706372/2721478
 manifest: build
-	+@for branch in experimental beta stable; do \
+	+@for branch in mns deadend tng master rawhide experimental testing stable; do \
 		echo ''; \
 		echo ''Creating $$branch manifest''; \
 		$(GLUON_MAKE) manifest GLUON_AUTOUPDATER_BRANCH=$$branch; \

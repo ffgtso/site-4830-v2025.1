@@ -1,0 +1,95 @@
+From a5761b2fadee8af76e699517a823e9440001da5f Mon Sep 17 00:00:00 2001
+From: "4830.org Admins" <wusel+src@uu.org>
+Date: Wed, 7 Jan 2026 14:12:23 +0100
+Subject: [PATCH 1/1] openwrt/scripts/dtc/pylibfdt/libfdt.i_shipped: Use
+ SWIG_AppendOutput
+
+---
+ ...bfdt-libfdt.i_shipped-Use-SWIG_Appen.patch | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 patches/openwrt/0014-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
+
+diff --git a/patches/openwrt/0014-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch b/patches/openwrt/0014-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
+new file mode 100644
+index 00000000..493f789b
+--- /dev/null
++++ b/patches/openwrt/0014-scripts-dtc-pylibfdt-libfdt.i_shipped-Use-SWIG_Appen.patch
+@@ -0,0 +1,75 @@
++From ce11c6a8523ad72fe6f6c02e61ff63564f6b1e3f Mon Sep 17 00:00:00 2001
++From: "4830.org Admins" <wusel+src@uu.org>
++Date: Wed, 7 Jan 2026 14:06:15 +0100
++Subject: [PATCH 1/1] scripts/dtc/pylibfdt/libfdt.i_shipped: Use
++ SWIG_AppendOutput
++
++---
++ ...libfdt-i_shipped-Use-SWIG_AppendOutp.patch | 55 +++++++++++++++++++
++ 1 file changed, 55 insertions(+)
++ create mode 100644 package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++
++diff --git a/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch b/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++new file mode 100644
++index 0000000000..f5beca8d77
++--- /dev/null
+++++ b/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++@@ -0,0 +1,55 @@
+++From a63456b9191fae2fe49f4b121e025792022e3950 Mon Sep 17 00:00:00 2001
+++From: Markus Volk <f_l_k@t-online.de>
+++Date: Wed, 30 Oct 2024 06:07:16 +0100
+++Subject: [PATCH] scripts/dtc/pylibfdt/libfdt.i_shipped: Use SWIG_AppendOutput
+++MIME-Version: 1.0
+++Content-Type: text/plain; charset=UTF-8
+++Content-Transfer-Encoding: 8bit
+++
+++Swig has changed language specific AppendOutput functions. The helper
+++macro SWIG_AppendOutput remains unchanged. Use that instead
+++of SWIG_Python_AppendOutput, which would require an extra parameter
+++since swig 4.3.0.
+++
+++/home/flk/poky/build-test/tmp/work/qemux86_64-poky-linux/u-boot/2024.10/git/arch/x86/cpu/u-boot-64.lds
+++| scripts/dtc/pylibfdt/libfdt_wrap.c: In function ‘_wrap_fdt_next_node’:
+++| scripts/dtc/pylibfdt/libfdt_wrap.c:5581:17: error: too few arguments to function ‘SWIG_Python_AppendOutput’
+++|  5581 |     resultobj = SWIG_Python_AppendOutput(resultobj, val);
+++|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+++
+++Signed-off-by: Markus Volk <f_l_k@t-online.de>
+++Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+++Link: https://github.com/dgibson/dtc/pull/154
+++---
+++ scripts/dtc/pylibfdt/libfdt.i_shipped | 6 +++---
+++ 1 file changed, 3 insertions(+), 3 deletions(-)
+++
+++--- a/scripts/dtc/pylibfdt/libfdt.i_shipped
++++++ b/scripts/dtc/pylibfdt/libfdt.i_shipped
+++@@ -1037,7 +1037,7 @@ typedef uint32_t fdt32_t;
+++ 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
+++ 		buff = PyByteArray_FromStringAndSize(
+++ 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
+++-		resultobj = SWIG_Python_AppendOutput(resultobj, buff);
++++		resultobj = SWIG_AppendOutput(resultobj, buff);
+++ 	}
+++ }
+++ 
+++@@ -1076,7 +1076,7 @@ typedef uint32_t fdt32_t;
+++ 
+++ %typemap(argout) int *depth {
+++         PyObject *val = Py_BuildValue("i", *arg$argnum);
+++-        resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++        resultobj = SWIG_AppendOutput(resultobj, val);
+++ }
+++ 
+++ %apply int *depth { int *depth };
+++@@ -1092,7 +1092,7 @@ typedef uint32_t fdt32_t;
+++            if (PyTuple_GET_SIZE(resultobj) == 0)
+++               resultobj = val;
+++            else
+++-              resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++              resultobj = SWIG_AppendOutput(resultobj, val);
+++         }
+++ }
+++ 
++-- 
++2.47.3
++
+-- 
+2.47.3
+

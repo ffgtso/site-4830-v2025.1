@@ -22,7 +22,7 @@ GLUON_REGION ?= eu
 # Languages to include
 GLUON_LANGS ?= de en
 
-DEFAULT_GLUON_RELEASE := 2.0.1
+DEFAULT_GLUON_RELEASE := 2.1.0
 
 # Allow overriding the release number from the command line
 GLUON_RELEASE ?= $(DEFAULT_GLUON_RELEASE)

@@ -1,0 +1,86 @@
+From 2f24b475244f65de186b04c133cd038ccf4f394f Mon Sep 17 00:00:00 2001
+From: "4830.org Admins" <technik+git@guetersloh.freifunk.net>
+Date: Sat, 10 Jan 2026 03:32:23 +0100
+Subject: [PATCH 1/1] Add EA8300, drop EdgeRouter
+
+---
+ targets/ipq40xx-generic |  6 ++++++
+ targets/ramips-mt7621   | 26 ++++++++++++++++++--------
+ 2 files changed, 24 insertions(+), 8 deletions(-)
+
+diff --git a/targets/ipq40xx-generic b/targets/ipq40xx-generic
+index ad50609b..7cc28799 100644
+--- a/targets/ipq40xx-generic
++++ b/targets/ipq40xx-generic
+@@ -95,6 +95,11 @@ device('gl.inet-gl-b1300', 'glinet_gl-b1300', {
+ 
+ device('linksys-ea6350v3', 'linksys_ea6350v3')
+ 
++device('linksys-ea8300-dallas', 'linksys_ea8300', {
++	packages = ATH10K_PACKAGES_IPQ40XX_QCA9888,
++	factory = false,
++})
++
+ device('linksys-mr8300-dallas', 'linksys_mr8300',{
+ 	packages = ATH10K_PACKAGES_IPQ40XX_QCA9888,
+ 	factory = false,
+@@ -184,6 +189,7 @@ device('plasma-cloud-pa2200', 'plasmacloud_pa2200', {
+ -- ZTE
+ 
+ device('zte-mf289f', 'zte_mf289f', {
++	packages = ATH10K_PACKAGES_IPQ40XX_QCA9984,
+ 	broken = true,	-- case must be opened to install
+ 	factory = false,
+ })
+diff --git a/targets/ramips-mt7621 b/targets/ramips-mt7621
+index fdc3c3af..1ad03285 100644
+--- a/targets/ramips-mt7621
++++ b/targets/ramips-mt7621
+@@ -96,6 +96,10 @@ device('netgear-wac104', 'netgear_wac104', {
+ 	factory_ext = '.img',
+ })
+ 
++device('netgear-wac124', 'netgear_wac124', {
++	factory_ext = '.img',
++})
++
+ device('netgear-wax202', 'netgear_wax202', {
+ 	factory_ext = '.img',
+ })
+@@ -123,6 +127,12 @@ device('tp-link-re500-v1', 'tplink_re500-v1')
+ device('tp-link-re650-v1', 'tplink_re650-v1')
+ 
+ 
++-- Totolink
++
++device('totolink-x5000r', 'totolink_x5000r', {
++       factory = false,
++})
++
+ -- Ubiquiti
+ 
+ device('ubiquiti-unifi-6-lite', 'ubnt_unifi-6-lite', {
+@@ -188,12 +198,12 @@ device('zyxel-wsm20', 'zyxel_wsm20', {
+ 
+ -- Ubiquiti
+ 
+-device('ubiquiti-edgerouter-x', 'ubnt_edgerouter-x', {
+-	factory = false,
+-	packages = {'-hostapd-mini'},
+-})
++-- device('ubiquiti-edgerouter-x', 'ubnt_edgerouter-x', {
++-- 	factory = false,
++-- 	packages = {'-hostapd-mini'},
++-- })
+ 
+-device('ubiquiti-edgerouter-x-sfp', 'ubnt_edgerouter-x-sfp', {
+-	factory = false,
+-	packages = {'-hostapd-mini'},
+-})
++-- device('ubiquiti-edgerouter-x-sfp', 'ubnt_edgerouter-x-sfp', {
++-- 	factory = false,
++-- 	packages = {'-hostapd-mini'},
++-- })
+-- 
+2.39.5
+

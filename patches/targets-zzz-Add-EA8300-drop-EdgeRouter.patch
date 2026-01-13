@@ -60,27 +60,6 @@ index fdc3c3af..1ad03285 100644
  -- Ubiquiti
  
  device('ubiquiti-unifi-6-lite', 'ubnt_unifi-6-lite', {
-@@ -188,12 +198,12 @@ device('zyxel-wsm20', 'zyxel_wsm20', {
- 
- -- Ubiquiti
- 
--device('ubiquiti-edgerouter-x', 'ubnt_edgerouter-x', {
--	factory = false,
--	packages = {'-hostapd-mini'},
--})
-+-- device('ubiquiti-edgerouter-x', 'ubnt_edgerouter-x', {
-+-- 	factory = false,
-+-- 	packages = {'-hostapd-mini'},
-+-- })
- 
--device('ubiquiti-edgerouter-x-sfp', 'ubnt_edgerouter-x-sfp', {
--	factory = false,
--	packages = {'-hostapd-mini'},
--})
-+-- device('ubiquiti-edgerouter-x-sfp', 'ubnt_edgerouter-x-sfp', {
-+-- 	factory = false,
-+-- 	packages = {'-hostapd-mini'},
-+-- })
--- 
+--
 2.39.5
 

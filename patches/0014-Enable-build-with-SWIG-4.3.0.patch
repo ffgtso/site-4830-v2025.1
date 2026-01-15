@@ -1,0 +1,221 @@
+From be3113a3e49acfe358611c31dfd462a1ca8a995b Mon Sep 17 00:00:00 2001
+From: "4830.org Admins" <wusel+src@uu.org>
+Date: Thu, 15 Jan 2026 22:12:51 +0100
+Subject: [PATCH 1/1] Enable build with SWIG 4.3.0
+
+---
+ ...-SWIG_AppendOutput-due-to-swig-4.3.0.patch | 202 ++++++++++++++++++
+ 1 file changed, 202 insertions(+)
+ create mode 100644 patches/openwrt/0014-Use-SWIG_AppendOutput-due-to-swig-4.3.0.patch
+
+diff --git a/patches/openwrt/0014-Use-SWIG_AppendOutput-due-to-swig-4.3.0.patch b/patches/openwrt/0014-Use-SWIG_AppendOutput-due-to-swig-4.3.0.patch
+new file mode 100644
+index 00000000..f5c477c7
+--- /dev/null
++++ b/patches/openwrt/0014-Use-SWIG_AppendOutput-due-to-swig-4.3.0.patch
+@@ -0,0 +1,202 @@
++From 16e0c46d5433c82b514115a2b8522cedc15f23f4 Mon Sep 17 00:00:00 2001
++From: "4830.org Admins" <wusel+src@uu.org>
++Date: Thu, 15 Jan 2026 22:02:33 +0100
++Subject: [PATCH 1/1] Use SWIG_AppendOutput due to swig 4.3.0
++
++---
++ ...-0-SWIG_AppendOutput-keeps-signature.patch | 57 +++++++++++++++++++
++ ...libfdt-i_shipped-Use-SWIG_AppendOutp.patch | 55 ++++++++++++++++++
++ ...libfdt-i_shipped-Use-SWIG_AppendOutp.patch | 55 ++++++++++++++++++
++ 3 files changed, 167 insertions(+)
++ create mode 100644 package/boot/uboot-d1/patches/310-fix-swig-4-3-0-SWIG_AppendOutput-keeps-signature.patch
++ create mode 100644 package/boot/uboot-mediatek/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++ create mode 100644 package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++
++diff --git a/package/boot/uboot-d1/patches/310-fix-swig-4-3-0-SWIG_AppendOutput-keeps-signature.patch b/package/boot/uboot-d1/patches/310-fix-swig-4-3-0-SWIG_AppendOutput-keeps-signature.patch
++new file mode 100644
++index 0000000000..a78b64d5ee
++--- /dev/null
+++++ b/package/boot/uboot-d1/patches/310-fix-swig-4-3-0-SWIG_AppendOutput-keeps-signature.patch
++@@ -0,0 +1,57 @@
+++From a63456b9191fae2fe49f4b121e025792022e3950 Mon Sep 17 00:00:00 2001
+++From: Markus Volk <f_l_k@t-online.de>
+++Date: Wed, 30 Oct 2024 06:07:16 +0100
+++Subject: [PATCH] scripts/dtc/pylibfdt/libfdt.i_shipped: Use SWIG_AppendOutput
+++MIME-Version: 1.0
+++Content-Type: text/plain; charset=UTF-8
+++Content-Transfer-Encoding: 8bit
+++
+++Swig has changed language specific AppendOutput functions. The helper
+++macro SWIG_AppendOutput remains unchanged. Use that instead
+++of SWIG_Python_AppendOutput, which would require an extra parameter
+++since swig 4.3.0.
+++
+++/home/flk/poky/build-test/tmp/work/qemux86_64-poky-linux/u-boot/2024.10/git/arch/x86/cpu/u-boot-64.lds
+++| scripts/dtc/pylibfdt/libfdt_wrap.c: In function ‘_wrap_fdt_next_node’:
+++| scripts/dtc/pylibfdt/libfdt_wrap.c:5581:17: error: too few arguments to function ‘SWIG_Python_AppendOutput’
+++|  5581 |     resultobj = SWIG_Python_AppendOutput(resultobj, val);
+++|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+++
+++Signed-off-by: Markus Volk <f_l_k@t-online.de>
+++Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+++Link: https://github.com/dgibson/dtc/pull/154
+++---
+++ scripts/dtc/pylibfdt/libfdt.i_shipped | 6 +++---
+++ 1 file changed, 3 insertions(+), 3 deletions(-)
+++
+++diff --git a/scripts/dtc/pylibfdt/libfdt.i_shipped b/scripts/dtc/pylibfdt/libfdt.i_shipped
+++index 56cc5d48f4f9..e4659489a96a 100644
+++--- a/scripts/dtc/pylibfdt/libfdt.i_shipped
++++++ b/scripts/dtc/pylibfdt/libfdt.i_shipped
+++@@ -1037,7 +1037,7 @@ typedef uint32_t fdt32_t;
+++ 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
+++ 		buff = PyByteArray_FromStringAndSize(
+++ 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
+++-		resultobj = SWIG_Python_AppendOutput(resultobj, buff);
++++		resultobj = SWIG_AppendOutput(resultobj, buff);
+++ 	}
+++ }
+++ 
+++@@ -1076,7 +1076,7 @@ typedef uint32_t fdt32_t;
+++ 
+++ %typemap(argout) int *depth {
+++         PyObject *val = Py_BuildValue("i", *arg$argnum);
+++-        resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++        resultobj = SWIG_AppendOutput(resultobj, val);
+++ }
+++ 
+++ %apply int *depth { int *depth };
+++@@ -1092,7 +1092,7 @@ typedef uint32_t fdt32_t;
+++            if (PyTuple_GET_SIZE(resultobj) == 0)
+++               resultobj = val;
+++            else
+++-              resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++              resultobj = SWIG_AppendOutput(resultobj, val);
+++         }
+++ }
+++ 
++diff --git a/package/boot/uboot-mediatek/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch b/package/boot/uboot-mediatek/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++new file mode 100644
++index 0000000000..f5beca8d77
++--- /dev/null
+++++ b/package/boot/uboot-mediatek/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++@@ -0,0 +1,55 @@
+++From a63456b9191fae2fe49f4b121e025792022e3950 Mon Sep 17 00:00:00 2001
+++From: Markus Volk <f_l_k@t-online.de>
+++Date: Wed, 30 Oct 2024 06:07:16 +0100
+++Subject: [PATCH] scripts/dtc/pylibfdt/libfdt.i_shipped: Use SWIG_AppendOutput
+++MIME-Version: 1.0
+++Content-Type: text/plain; charset=UTF-8
+++Content-Transfer-Encoding: 8bit
+++
+++Swig has changed language specific AppendOutput functions. The helper
+++macro SWIG_AppendOutput remains unchanged. Use that instead
+++of SWIG_Python_AppendOutput, which would require an extra parameter
+++since swig 4.3.0.
+++
+++/home/flk/poky/build-test/tmp/work/qemux86_64-poky-linux/u-boot/2024.10/git/arch/x86/cpu/u-boot-64.lds
+++| scripts/dtc/pylibfdt/libfdt_wrap.c: In function ‘_wrap_fdt_next_node’:
+++| scripts/dtc/pylibfdt/libfdt_wrap.c:5581:17: error: too few arguments to function ‘SWIG_Python_AppendOutput’
+++|  5581 |     resultobj = SWIG_Python_AppendOutput(resultobj, val);
+++|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+++
+++Signed-off-by: Markus Volk <f_l_k@t-online.de>
+++Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+++Link: https://github.com/dgibson/dtc/pull/154
+++---
+++ scripts/dtc/pylibfdt/libfdt.i_shipped | 6 +++---
+++ 1 file changed, 3 insertions(+), 3 deletions(-)
+++
+++--- a/scripts/dtc/pylibfdt/libfdt.i_shipped
++++++ b/scripts/dtc/pylibfdt/libfdt.i_shipped
+++@@ -1037,7 +1037,7 @@ typedef uint32_t fdt32_t;
+++ 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
+++ 		buff = PyByteArray_FromStringAndSize(
+++ 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
+++-		resultobj = SWIG_Python_AppendOutput(resultobj, buff);
++++		resultobj = SWIG_AppendOutput(resultobj, buff);
+++ 	}
+++ }
+++ 
+++@@ -1076,7 +1076,7 @@ typedef uint32_t fdt32_t;
+++ 
+++ %typemap(argout) int *depth {
+++         PyObject *val = Py_BuildValue("i", *arg$argnum);
+++-        resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++        resultobj = SWIG_AppendOutput(resultobj, val);
+++ }
+++ 
+++ %apply int *depth { int *depth };
+++@@ -1092,7 +1092,7 @@ typedef uint32_t fdt32_t;
+++            if (PyTuple_GET_SIZE(resultobj) == 0)
+++               resultobj = val;
+++            else
+++-              resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++              resultobj = SWIG_AppendOutput(resultobj, val);
+++         }
+++ }
+++ 
++diff --git a/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch b/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++new file mode 100644
++index 0000000000..f5beca8d77
++--- /dev/null
+++++ b/package/boot/uboot-sifiveu/patches/002-scripts-dtc-pylibfdt-libfdt-i_shipped-Use-SWIG_AppendOutp.patch
++@@ -0,0 +1,55 @@
+++From a63456b9191fae2fe49f4b121e025792022e3950 Mon Sep 17 00:00:00 2001
+++From: Markus Volk <f_l_k@t-online.de>
+++Date: Wed, 30 Oct 2024 06:07:16 +0100
+++Subject: [PATCH] scripts/dtc/pylibfdt/libfdt.i_shipped: Use SWIG_AppendOutput
+++MIME-Version: 1.0
+++Content-Type: text/plain; charset=UTF-8
+++Content-Transfer-Encoding: 8bit
+++
+++Swig has changed language specific AppendOutput functions. The helper
+++macro SWIG_AppendOutput remains unchanged. Use that instead
+++of SWIG_Python_AppendOutput, which would require an extra parameter
+++since swig 4.3.0.
+++
+++/home/flk/poky/build-test/tmp/work/qemux86_64-poky-linux/u-boot/2024.10/git/arch/x86/cpu/u-boot-64.lds
+++| scripts/dtc/pylibfdt/libfdt_wrap.c: In function ‘_wrap_fdt_next_node’:
+++| scripts/dtc/pylibfdt/libfdt_wrap.c:5581:17: error: too few arguments to function ‘SWIG_Python_AppendOutput’
+++|  5581 |     resultobj = SWIG_Python_AppendOutput(resultobj, val);
+++|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+++
+++Signed-off-by: Markus Volk <f_l_k@t-online.de>
+++Reported-by: Rudi Heitbaum <rudi@heitbaum.com>
+++Link: https://github.com/dgibson/dtc/pull/154
+++---
+++ scripts/dtc/pylibfdt/libfdt.i_shipped | 6 +++---
+++ 1 file changed, 3 insertions(+), 3 deletions(-)
+++
+++--- a/scripts/dtc/pylibfdt/libfdt.i_shipped
++++++ b/scripts/dtc/pylibfdt/libfdt.i_shipped
+++@@ -1037,7 +1037,7 @@ typedef uint32_t fdt32_t;
+++ 			fdt_string(fdt1, fdt32_to_cpu($1->nameoff)));
+++ 		buff = PyByteArray_FromStringAndSize(
+++ 			(const char *)($1 + 1), fdt32_to_cpu($1->len));
+++-		resultobj = SWIG_Python_AppendOutput(resultobj, buff);
++++		resultobj = SWIG_AppendOutput(resultobj, buff);
+++ 	}
+++ }
+++ 
+++@@ -1076,7 +1076,7 @@ typedef uint32_t fdt32_t;
+++ 
+++ %typemap(argout) int *depth {
+++         PyObject *val = Py_BuildValue("i", *arg$argnum);
+++-        resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++        resultobj = SWIG_AppendOutput(resultobj, val);
+++ }
+++ 
+++ %apply int *depth { int *depth };
+++@@ -1092,7 +1092,7 @@ typedef uint32_t fdt32_t;
+++            if (PyTuple_GET_SIZE(resultobj) == 0)
+++               resultobj = val;
+++            else
+++-              resultobj = SWIG_Python_AppendOutput(resultobj, val);
++++              resultobj = SWIG_AppendOutput(resultobj, val);
+++         }
+++ }
+++ 
++-- 
++2.47.3
++
+-- 
+2.47.3
+

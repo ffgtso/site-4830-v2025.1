@@ -57,7 +57,7 @@ MAKEFLAGS += -j$(JOBS)
 MAKEFLAGS += --no-print-directory
 MAKEFLAGS += --output-sync
 
-GLUON_MAKE = $(MAKE) -C $(GLUON_BUILD_DIR)
+GLUON_MAKE = $(MAKE) -C $(GLUON_BUILD_DIR) --output-sync=target BUILD_LOG=1 V=s
 GLUON_GIT = git -C $(GLUON_BUILD_DIR)
 
 

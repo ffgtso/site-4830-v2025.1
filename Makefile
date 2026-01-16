@@ -20,7 +20,8 @@
 # OPKG_KEY_FOLDER - Path to your OpenWrt package signing key
 #########################
 
-GLUON_RELEASE := 2.1.0~$(shell ./get_build_nr.sh)
+#GLUON_RELEASE := 2.1.0~$(shell ./get_build_nr.sh)
+SECRET_KEY_FILE ?= ${HOME}/build/secret-build
 
 
 ## Setup Build environment variables
@@ -30,7 +31,7 @@ GLUON_BUILD_DIR := gluon-build
 
 export GLUON_SITEDIR := ..
 PATCH_DIR := patches
-SECRET_KEY_FILE ?= $(HOME)/.gluon-secret-key
+#SECRET_KEY_FILE ?= $(HOME)/.gluon-secret-key
 OPKG_KEY_FOLDER ?= $(HOME)/.key-build
 
 ## Create version scheme
@@ -146,6 +147,7 @@ manifest: build
 	done
 
 build: gluon-prepare output-clean
+	echo 1 >lfdtgtnr
 	+@for target in $(GLUON_TARGETS); do \
 		echo ''; \
 		echo ''Building target $$target''; \
@@ -199,6 +201,8 @@ ffac-patch: gluon-update
 		echo 'Installing your opkg keys'; \
 		cp $(OPKG_KEY_FOLDER)/key-build* $(GLUON_BUILD_DIR)/openwrt/; \
 	fi
+	echo $$(date +%s) > ${GLUON_BUILD_DIR}/openwrt/version.date
+	(cd ${GLUON_BUILD_DIR}/openwrt ; git add version.date ; git commit -m "Build with current time.")
 	@touch .modules
 
 

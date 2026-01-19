@@ -16,6 +16,7 @@ features {
 
 packages {
 	'ff-mesh-vpn-tunneldigger',
+    'gluon-tunneldigger-watchdog',
     'iwinfo',
     'respondd-module-airtime',
     'tecff-general-workaround',

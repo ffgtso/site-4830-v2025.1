@@ -156,7 +156,7 @@ build: gluon-prepare output-clean
 		makeRC=$$? ;\
 		./log_status.sh "$$target" $$makeRC "$(GLUON_RELEASE)" ; \
 		echo "Done building target $$target with RC $$makeRC" ; \
-		if [ $$makeRC -ne 0 ]; then echo "*** Bailing out." >>build_$${target}.log; fi; \
+		if [ $$makeRC -ne 0 ]; then echo "*** Bailing out." >>build_$${target}.log; break; fi; \
 	done
 	@if [ ! -f "$(OPKG_KEY_FOLDER)/key-build" ] && [ -f "$(GLUON_BUILD_DIR)/openwrt/key-build" ]; then \
 		echo 'Copying new opkg keys to $(OPKG_KEY_FOLDER)'; \

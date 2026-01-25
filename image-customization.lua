@@ -242,3 +242,8 @@ if device({
         'gluon-mesh-wireless-sae',
 	}
 end
+
+-- restore config on ERX after update to 2.1.0
+if device({'ubiquiti-edgerouter-x', 'ubiquiti-edgerouter-x-sfp',}) then
+	packages { '4830-erx-finalize', }
+end

@@ -61,8 +61,8 @@ end
 
 if device({
         'zte-mf281',
-        'glinet-gl-xe300',
-        'glinet-gl-ap1300',
+        'gl.inet-gl-xe300',
+        'gl.inet-gl-ap1300',
         'zte-mf289f',
         'zte-mf286r',
         'wavlink-ws-wn572hp3-4g',
@@ -241,4 +241,9 @@ if device({
 	packages {
         'gluon-mesh-wireless-sae',
 	}
+end
+
+-- restore config on ERX after update to 2.1.0
+if device({'ubiquiti-edgerouter-x', 'ubiquiti-edgerouter-x-sfp',}) then
+	packages { '4830-erx-finalize', }
 end

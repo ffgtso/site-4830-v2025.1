@@ -1,0 +1,48 @@
+Release Notes for gluon-4830-@@RELEASE@@
+========================================
+
+This Freifunk Firmware is based on Gluon v2018.1.4 (1.0.x)
+or v2018.2 (1.1.x; as of 2020-01-10 based on v2018.2.4) or
+v2019.1 (1.2.x; as of 2021-04-06 based on v2019.1.3) and
+includes some additional modules. Full history below:
+
+   1.0.x: v2018.1.4 based, fastd
+   1.1.2: v2018.2.x based, fastd
+   1.1.5: v2018.2.x based, L2TP (tunneldigger)
+   1.1.6: v2018.2.x based, VXLAN via Wireguard
+   1.2.0: v2019.1.x based, L2TP (tunneldigger) (>= 1.2.0~38 includes the BROKEN gluon-migrate-ffbi)
+   1.4.0: v2021.1.x based, L2TP (tunneldigger), last with 4/32 support (Firmware that migrated FFBI, FFLG, FFUE, FFLIP; see ffX-to-4830, from ~200 hast working 4380-mesh-switch)
+   1.5.0: v2022.1.x based, L2TP (tunneldigger) — withdrawn
+   1.6.0: v2022.1.x but OpenWrt 23.05 based, L2TP (tunneldigger) — withdrawn
+   1.9.0: v2023.1.x based, base for 2.0/2.1 after 1.4.0, dropped all 4/32
+   2.0.0: v2023.2.x based, first to support EX4300 – mainly skipped in favor of 2.1.0
+   2.1.0: v2025.1.x based, first with community tunneldigger
+
+For 1.5 and beyond, the patches applied to Gluon reside in site/patches and are applied against the plain Gluon tree at build time.
+
+Noteworthy (mostly legacy) packages:
+
+ - modified config mode (WAN, dhcp-client)
+
+ - gluon-migrate-ffbiv2
+
+   Migrated nodename, coordinates, ... from FFBI-Firmware to Gluon
+
+ - fflg-migrate-to-multidomain
+
+   Migrated from FFLG-Firmware to Mesh "lbg" in the 4830-Firmware
+
+ - ffue-migrate-to-multidomain
+
+   Migrated from FFUE-Firmwares to Meshes "cel/gif/luw/uel/uez/xbj" in the 4830-Firmware
+
+ - ffX-to-4830
+
+   Migrated FFLIP Meshes to 4830.org Meshes, ready to do the same for Winterberg
+
+For further info check corresponding Gluon Release Notes.
+
+
+
+Further Build Information:
+==========================

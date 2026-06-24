@@ -42,6 +42,8 @@ tiny_like = device({
     'tp-link-td-w8970',
     'tp-link-td-w8980',
     'ubiquiti-nanostation-m-xw',
+    'd-link-dap-1330-a1',
+    'd-link-dap-1365-a1',
 })
 
 if not device_class('tiny') and not tiny_like then

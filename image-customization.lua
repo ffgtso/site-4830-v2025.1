@@ -64,7 +64,6 @@ tiny_like = device({
     'tp-link-cpe510-v2',
     'tp-link-cpe510-v3',
     'tp-link-td-w8970',
-    'tp-link-td-w8970',
     'tp-link-td-w8980',
     'tp-link-tl-wdr3500-v1',
     'tp-link-tl-wdr3600-v1',

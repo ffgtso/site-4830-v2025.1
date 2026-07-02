@@ -31,6 +31,7 @@ packages {
 	'ffac-autoupdater-wifi-fallback',
 	'ffX-migrate-to-4830',
 	'ffgt-eol-device',
+    'gluon-web-logging',
 }
 
 include_usb = false
@@ -93,7 +94,6 @@ if not device_class('tiny') and not tiny_like then
         'ffda-node-whisperer',
         'gluon-pump',
         'gluon-l2tp-batman-server',
-        'gluon-web-logging',
     }
     -- usb is only default available for non-tiny devices
     include_usb = true

@@ -1,0 +1,27 @@
+From 6ec63cb7da7e9f9d096914620c0a058a7cae159c Mon Sep 17 00:00:00 2001
+From: "4830.org Admins" <wusel+src@uu.org>
+Date: Thu, 2 Jul 2026 20:29:31 +0200
+Subject: [PATCH] Drop ravpower-rp-wd009
+
+---
+ targets/ramips-mt76x8 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/targets/ramips-mt76x8 b/targets/ramips-mt76x8
+index e5f24dfd..cf8fd1ce 100644
+--- a/targets/ramips-mt76x8
++++ b/targets/ramips-mt76x8
+@@ -35,7 +35,9 @@ device('netgear-r6120', 'netgear_r6120', {
+ 
+ -- RAVPower
+ 
+-device('ravpower-rp-wd009', 'ravpower_rp-wd009')
++device('ravpower-rp-wd009', 'ravpower_rp-wd009', {
++	broken = true, -- build issues
++})
+ 
+ 
+ -- TP-Link
+-- 
+2.47.3
+

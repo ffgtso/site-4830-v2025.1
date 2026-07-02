@@ -1,6 +1,7 @@
 ifndef GLUON_TARGETS
 
 define GLUON_TARGETS :=
+ramips-mt76x8
 mediatek-filogic
 ramips-mt7621
 ath79-generic
@@ -16,7 +17,6 @@ lantiq-xway
 mediatek-mt7622
 mpc85xx-p1010
 mpc85xx-p1020
-ramips-mt76x8
 rockchip-armv8
 x86-64
 endef

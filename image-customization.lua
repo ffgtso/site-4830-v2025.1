@@ -28,7 +28,6 @@ packages {
 	'ffgt-speedtest',
 	'ffgt-nachtruhe',
 	'gluon-radv-filterd',
-	'gluon-web-logging',
 	'ffac-autoupdater-wifi-fallback',
 	'ffX-migrate-to-4830',
 	'ffgt-eol-device',
@@ -52,6 +51,7 @@ tiny_like = device({
     'tp-link-archer-c20-v1',
     'tp-link-archer-c2-v1',
     'tp-link-archer-c50-v1',
+    'tp-link-archer-c50-v6,
     'tp-link-archer-c60-v1',
     'tp-link-archer-c6-v2',
     'tp-link-archer-c6-v2-eu-ru-jp',
@@ -92,6 +92,7 @@ if not device_class('tiny') and not tiny_like then
         'ffda-node-whisperer',
         'gluon-pump',
         'gluon-l2tp-batman-server',
+        'gluon-web-logging',
     }
     -- usb is only default available for non-tiny devices
     include_usb = true

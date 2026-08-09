@@ -78,6 +78,7 @@ tiny_like = device({
     'tp-link-wbs210-v1',
     'tp-link-wbs210-v2',
     'tp-link-wbs510-v1',
+    'tp-link-wr902ac-v4'
     'ubiquiti-nanostation-loco-m-xw',
     'ubiquiti-nanostation-m-xw',
     'ubiquiti-unifi-ap',

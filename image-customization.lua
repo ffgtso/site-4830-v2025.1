@@ -32,6 +32,7 @@ packages {
 	'ffX-migrate-to-4830',
 	'ffgt-eol-device',
     'gluon-web-logging',
+    '4830-meshstate',
 }
 
 include_usb = false

@@ -1,0 +1,72 @@
+From 178a1d2d01faf1e844ca619301a5abec56d1a392 Mon Sep 17 00:00:00 2001
+From: "4830.org Admins" <wusel+src@uu.org>
+Date: Wed, 26 Aug 2026 23:36:19 +0200
+Subject: [PATCH] ramips: mt7621: disable EEE on the driver side
+
+---
+ ...mt7621-disable-EEE-on-driver-side-v2.patch | 53 +++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 patches/openwrt/0015-ramips-mt7621-disable-EEE-on-driver-side-v2.patch
+
+diff --git a/patches/openwrt/0015-ramips-mt7621-disable-EEE-on-driver-side-v2.patch b/patches/openwrt/0015-ramips-mt7621-disable-EEE-on-driver-side-v2.patch
+new file mode 100644
+index 00000000..a98a7ba9
+--- /dev/null
++++ b/patches/openwrt/0015-ramips-mt7621-disable-EEE-on-driver-side-v2.patch
+@@ -0,0 +1,53 @@
++From: 4830.org Admins <wusel+src@4830.org>
++Date: Sat, 28 Mar 2026 23:29:56 +0800
++Subject: ramips: mt7621: disable EEE on the driver side
++
++Backport the MT7621 EEE workaround from OpenWrt PR #22647 to the
++Linux 6.6 based OpenWrt 24.10 tree used by Gluon v2025.1.
++
++There are some hardware defects in MT7621 EEE support. Sometimes it
++can not establish a stable connection with EEE enabled.
++
++Disable EEE advertisement directly on all internal switch PHYs during
++MT7530 setup.
++
++Upstream-PR: https://github.com/openwrt/openwrt/pull/22647
++Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
++
++diff --git a/target/linux/ramips/patches-6.6/140-net-dsa-mt7530-do-not-advertise-EEE-on-MT7621-switch.patch b/target/linux/ramips/patches-6.6/140-net-dsa-mt7530-do-not-advertise-EEE-on-MT7621-switch.patch
++new file mode 100644
++index 0000000000..1111111111
++--- /dev/null
+++++ b/target/linux/ramips/patches-6.6/140-net-dsa-mt7530-do-not-advertise-EEE-on-MT7621-switch.patch
++@@ -0,0 +1,31 @@
+++From 72dad99ddcff3a0f94c14dfdb074d61308501fc2 Mon Sep 17 00:00:00 2001
+++From: Shiji Yang <yangshiji66@outlook.com>
+++Date: Sat, 28 Mar 2026 23:29:56 +0800
+++Subject: [PATCH] net: dsa: mt7530: do not advertise EEE on MT7621 switch
+++
+++There are some hardware defects in MT7621 EEE support. Sometimes it
+++can not establish a stable connection with EEE enabled.
+++
+++Signed-off-by: Shiji Yang <yangshiji66@outlook.com>
+++---
+++ drivers/net/dsa/mt7530.c | 9 +++++++++
+++ 1 file changed, 9 insertions(+)
+++
+++--- a/drivers/net/dsa/mt7530.c
++++++ b/drivers/net/dsa/mt7530.c
+++@@ -2429,6 +2429,15 @@ mt7530_setup(struct dsa_switch *ds)
+++ 	if ((val & MT7530_XTAL_MASK) == MT7530_XTAL_40MHZ)
+++ 		mt7530_pll_setup(priv);
+++ 
++++	if (priv->id == ID_MT7621) {
++++		/* Disable EEE advertisement on the switch PHYs. */
++++		for (i = MT753X_CTRL_PHY_ADDR(priv->mdiodev->addr);
++++		     i < MT753X_CTRL_PHY_ADDR(priv->mdiodev->addr) + MT7530_NUM_PHYS;
++++		     i++) {
++++			mt7530_phy_write_c45(priv, i, MDIO_MMD_AN, MDIO_AN_EEE_ADV, 0);
++++		}
++++	}
++++
+++ 	mt753x_trap_frames(priv);
+++ 
+++ 	/* Enable and reset MIB counters */
+-- 
+2.47.3
+

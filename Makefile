@@ -180,7 +180,7 @@ pre-patch-gluon: gluon-update
 	fi
 	@$(GLUON_GIT) checkout -B patching
 	@if [ -d "$(PATCH_DIR)" -a "$(PATCH_DIR)/*.patch" ]; then \
-	    @echo "Applying: $(PATCH_FILES)"; \
+	    echo "Applying: $(PATCH_FILES)"; \
 		(git apply --directory=$(GLUON_BUILD_DIR) --ignore-space-change --ignore-whitespace --whitespace=nowarn --verbose $(PATCH_FILES)) || ( \
 			$(GLUON_GIT) clean -fd; \
 			$(GLUON_GIT) checkout -B patched; \

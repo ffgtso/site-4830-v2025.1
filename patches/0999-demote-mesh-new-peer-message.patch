@@ -1,0 +1,50 @@
+From 81e3012b4c668d7b12e103fa97f010e71b6f8783 Mon Sep 17 00:00:00 2001
+From: FFGT Admins <info@4830.org>
+Date: Fri, 25 Sep 2026 14:50:17 +0000
+Subject: [PATCH] hostapd: demote mesh new peer notification to debug
+
+---
+ .../0999-demote-mesh-new-peer-message.patch   | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 patches/openwrt/0999-demote-mesh-new-peer-message.patch
+
+diff --git a/patches/openwrt/0999-demote-mesh-new-peer-message.patch b/patches/openwrt/0999-demote-mesh-new-peer-message.patch
+new file mode 100644
+index 00000000..c72af294
+--- /dev/null
++++ b/patches/openwrt/0999-demote-mesh-new-peer-message.patch
+@@ -0,0 +1,31 @@
++From fc6abab59a0153fcc1c7a423b428e603e72bb484 Mon Sep 17 00:00:00 2001
++From: FFGT Admins <info@4830.org>
++Date: Fri, 25 Sep 2026 14:47:00 +0000
++Subject: [PATCH] hostapd: demote mesh new peer notification to debug
++
++---
++ .../patches/999-demote-mesh-new-peer-message.patch   | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
++ create mode 100644 package/network/services/hostapd/patches/999-demote-mesh-new-peer-message.patch
++
++diff --git a/package/network/services/hostapd/patches/999-demote-mesh-new-peer-message.patch b/package/network/services/hostapd/patches/999-demote-mesh-new-peer-message.patch
++new file mode 100644
++index 0000000000..1e18fb8573
++--- /dev/null
+++++ b/package/network/services/hostapd/patches/999-demote-mesh-new-peer-message.patch
++@@ -0,0 +1,12 @@
+++--- a/wpa_supplicant/mesh.c
++++++ b/wpa_supplicant/mesh.c
+++@@ -1293,8 +1293,8 @@ void wpa_mesh_notify_peer(struct wpa_supplicant *wpa_s, const u8 *addr,
+++ {
+++ 	struct ieee802_11_elems elems;
+++
+++-	wpa_msg(wpa_s, MSG_INFO,
++++	wpa_msg(wpa_s, MSG_DEBUG,
+++ 		"new peer notification for " MACSTR, MAC2STR(addr));
+++
+++ 	if (ieee802_11_parse_elems(ies, ie_len, &elems, 0) == ParseFailed) {
+++EOF
++-- 
++2.30.2
++
+-- 
+2.30.2
+

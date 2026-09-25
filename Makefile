@@ -170,16 +170,17 @@ ifndef GLUON_DEVICES
 	rsync -a --exclude '*/base' --exclude '*/luci' --exclude '*/packages' --exclude '*/routing' --exclude '*/telephony' $(GLUON_BUILD_DIR)/openwrt/bin/packages/ output/packages/$(PACKAGES_BRANCH)/
 endif
 
-gluon-prepare: gluon-update ffac-patch | .modules
+gluon-prepare: gluon-update pre-patch-gluon | .modules
 
 PATCH_FILES = $(shell find $(PATCH_DIR)/ -type f -name '*.patch')
-ffac-patch: gluon-update
+pre-patch-gluon: gluon-update
 	@echo 'Applying patches…'
 	@if [ `$(GLUON_GIT) branch --list patched` ]; then \
 		$(GLUON_GIT) branch -D patched; \
 	fi
 	@$(GLUON_GIT) checkout -B patching
 	@if [ -d "$(PATCH_DIR)" -a "$(PATCH_DIR)/*.patch" ]; then \
+	    @echo "Applying: $(PATCH_FILES)"
 		(git apply --directory=$(GLUON_BUILD_DIR) --ignore-space-change --ignore-whitespace --whitespace=nowarn --verbose $(PATCH_FILES)) || ( \
 			$(GLUON_GIT) clean -fd; \
 			$(GLUON_GIT) checkout -B patched; \
@@ -189,10 +190,10 @@ ffac-patch: gluon-update
 	fi
 	@$(GLUON_GIT) branch -M patched
 
-.cmp-git-head: FORCE | ffac-patch
+.cmp-git-head: FORCE | pre-patch-gluon
 	@$(GLUON_GIT) rev-parse @{0} | cmp -s '$@' || $(GLUON_GIT) rev-parse @{0} > '$@'
 
-.modules: release.mk modules .cmp-git-head $(PATCH_DIR) $(PATCH_FILES) | ffac-patch
+.modules: release.mk modules .cmp-git-head $(PATCH_DIR) $(PATCH_FILES) | pre-patch-gluon
 	@echo
 	@echo Updating Gluon modules…
 	@rm -f .modules
@@ -313,4 +314,4 @@ FORCE: ;
 
 .SUFFIXES: ;
 
-.PHONY: all gluon-update sign manifest build gluon-prepare ffac-patch patch-prepare patch edit-patches update-patches gluon-clean output-clean
+.PHONY: all gluon-update sign manifest build gluon-prepare pre-patch-gluon patch-prepare patch edit-patches update-patches gluon-clean output-clean

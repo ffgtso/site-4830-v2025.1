@@ -71,9 +71,10 @@ index 0000000..4af5d2d
 +
 +return f
 diff --git a/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wizard/0100-hostname.lua b/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wizard/0100-hostname.lua
+index 5f31dd8..5c40c88 100644
 --- a/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wizard/0100-hostname.lua
 +++ b/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wizard/0100-hostname.lua
-@@ -1,32 +1,11 @@
+@@ -1,35 +1,11 @@
  return function(form, uci)
  	local pkg_i18n = i18n 'gluon-config-mode-hostname'
 -	local site_i18n = i18n 'gluon-site'
@@ -81,7 +82,7 @@ diff --git a/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wiz
  	local pretty_hostname = require 'pretty_hostname'
 -	local site = require 'gluon.site'
 -	local util = require 'gluon.util'
-
+-
 -	local help = site_i18n._translate("gluon-config-mode:hostname-help") or pkg_i18n.translate(
 -		'The node name is used solely for identification of your node, e.g. on a '
 -		.. 'node map. It does not affect the name (SSID) of the broadcasted WLAN.'
@@ -92,7 +93,7 @@ diff --git a/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wiz
 -	local default_hostname = util.default_hostname()
 -	local configured = uci:get_first('gluon-setup-mode', 'setup_mode', 'configured', false) or
 -		(current_hostname ~= default_hostname)
--
+ 
 -	local s = form:section(Section)
 -	local o = s:option(Value, "hostname", pkg_i18n.translate("Node name"))
 -	o.datatype = 'minlength(1)'
@@ -103,15 +104,14 @@ diff --git a/package/gluon-config-mode-hostname/luasrc/lib/gluon/config-mode/wiz
 -	if configured or site.config_mode.hostname.prefill(true) then
 -		o.default = current_hostname
 -	end
--
--	function o:write(data)
--		pretty_hostname.set(uci, data or default_hostname)
--		uci:save('system')
--	end
 +	local help = pkg_i18n.translate(
 +		'The node name can be changed in the advanced settings.'
 +	) .. ' <a href="/admin/hostname">'
 +		.. pkg_i18n.translate('Change node name') .. '</a>'
-+
+ 
+-	function o:write(data)
+-		pretty_hostname.set(uci, data or default_hostname)
+-		uci:save('system')
+-	end
 +	form:section(Section, pretty_hostname.get(uci), help)
  end

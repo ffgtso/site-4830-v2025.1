@@ -1,0 +1,18 @@
+diff --git a/package/gluon-core/luasrc/usr/lib/lua/gluon/util.lua b/package/gluon-core/luasrc/usr/lib/lua/gluon/util.lua
+--- a/package/gluon-core/luasrc/usr/lib/lua/gluon/util.lua
++++ b/package/gluon-core/luasrc/usr/lib/lua/gluon/util.lua
+@@ -103,6 +103,14 @@ function M.node_id()
+ end
+ 
+ function M.default_hostname()
++	-- neanderfunk-default-hostname: <Praefix><Modell-Kurzname>-<letzte 4 der node_id>
++	local ok, nf = pcall(require, 'neanderfunk.default_hostname')
++	if ok then
++		local name = nf.hostname(site.hostname_prefix(''), M.node_id())
++		if name then
++			return name
++		end
++	end
+ 	return site.hostname_prefix('') .. M.node_id()
+ end
+ 

@@ -1,0 +1,27 @@
+From 92caf19746a12eca047a0d56909b21f10ca16006 Mon Sep 17 00:00:00 2001
+From: Patch Author <patch-author@example.invalid>
+Date: Thu, 22 Oct 2026 23:54:43 +0300
+Subject: [PATCH] respondd: report WiFi neighbour interface frequency in MHz
+
+---
+ package/gluon-respondd/src/respondd-neighbours.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/package/gluon-respondd/src/respondd-neighbours.c b/package/gluon-respondd/src/respondd-neighbours.c
+index f86dac4..98afaec 100644
+--- a/package/gluon-respondd/src/respondd-neighbours.c
++++ b/package/gluon-respondd/src/respondd-neighbours.c
+@@ -42,6 +42,10 @@ static struct json_object * get_wifi_neighbours(const char *ifname) {
+ 
+ 	struct json_object *ret = json_object_new_object();
+ 
++	int frequency;
++	if (iw->frequency(ifname, &frequency) == 0 && frequency > 0)
++		json_object_object_add(ret, "frequency", json_object_new_int(frequency));
++
+ 	if (json_object_object_length(neighbours))
+ 		json_object_object_add(ret, "neighbours", neighbours);
+ 	else
+-- 
+2.51.1
+

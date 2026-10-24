@@ -1,0 +1,47 @@
+From: Site patches <site-patches@localhost>
+Date: Sat, 24 Oct 2026 00:00:00 +0200
+Subject: [PATCH] openwrt: suppress noisy wpa_supplicant mesh peer notifications
+
+Install the OpenWrt module patch before make update. The module patch
+adds a hostapd source patch that removes the logging call entirely, avoiding
+formatting and log delivery for this message without changing mesh peering.
+
+diff --git a/patches/openwrt/0099-ffgt-hostapd-omit-mesh-peer-notification.patch b/patches/openwrt/0099-ffgt-hostapd-omit-mesh-peer-notification.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/openwrt/0099-ffgt-hostapd-omit-mesh-peer-notification.patch
+@@ -0,0 +1,34 @@
++From: Site patches <site-patches@localhost>
++Date: Sat, 24 Oct 2026 00:00:00 +0200
++Subject: [PATCH] hostapd: remove repetitive mesh peer logging
++
++Add a source patch removing only the informational peer notification.
++Applies to hostap commit 5ace39b0a4cdbe18ddbc4e18f80ee3876233c20b.
++
++diff --git a/package/network/services/hostapd/patches/999-ffgt-omit-mesh-peer-notification.patch b/package/network/services/hostapd/patches/999-ffgt-omit-mesh-peer-notification.patch
++new file mode 100644
++--- /dev/null
+++++ b/package/network/services/hostapd/patches/999-ffgt-omit-mesh-peer-notification.patch
++@@ -0,0 +1,22 @@
+++From: Site patches <site-patches@localhost>
+++Date: Sat, 24 Oct 2026 00:00:00 +0200
+++Subject: [PATCH] wpa_supplicant: omit noisy mesh peer notifications
+++
+++Remove the informational message from wpa_mesh_notify_peer entirely.
+++Repeated peer notifications otherwise incur message formatting and logging
+++overhead. Keep beacon parsing, peer processing and error reporting intact.
+++This also removes this informational message from control-interface monitors.
+++
+++diff --git a/wpa_supplicant/mesh.c b/wpa_supplicant/mesh.c
+++--- a/wpa_supplicant/mesh.c
++++++ b/wpa_supplicant/mesh.c
+++@@ -584,9 +584,6 @@
+++ {
+++ 	struct ieee802_11_elems elems;
+++ 
+++-	wpa_msg(wpa_s, MSG_INFO,
+++-		"new peer notification for " MACSTR, MAC2STR(addr));
+++-
+++ 	if (ieee802_11_parse_elems(ies, ie_len, &elems, 0) == ParseFailed) {
+++ 		wpa_msg(wpa_s, MSG_INFO, "Could not parse beacon from " MACSTR,
+++ 			MAC2STR(addr));

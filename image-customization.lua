@@ -20,7 +20,7 @@ packages {
 	'respondd-module-airtime',
 	'tecff-general-workaround',
 	'tecff-broken-wlan-workaround',
-	'ffac-ssid-changer',
+	'ffgt-ssid-changer',
 	'ffgt-name-conformizer',
 	'ffgt-banner',
 	'ffgt-config-mode-wizard',

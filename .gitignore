@@ -6,3 +6,4 @@ devices
 *.log
 .cmp-git-head
 .modules
+.idea

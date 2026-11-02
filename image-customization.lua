@@ -20,7 +20,6 @@ packages {
 	'respondd-module-airtime',
 	'tecff-general-workaround',
 	'tecff-broken-wlan-workaround',
-	'ffgt-ssid-changer',
 	'ffgt-name-conformizer',
 	'ffgt-banner',
 	'ffgt-config-mode-wizard',
@@ -28,11 +27,11 @@ packages {
 	'ffgt-speedtest',
 	'ffgt-nachtruhe',
 	'gluon-radv-filterd',
-	'ffac-autoupdater-wifi-fallback',
 	'ffX-migrate-to-4830',
 	'ffgt-eol-device',
     'gluon-web-logging',
     '4830-meshstate',
+    '4830-offline-manager',
 }
 
 include_usb = false
